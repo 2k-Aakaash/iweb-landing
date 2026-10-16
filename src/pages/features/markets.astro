@@ -1,0 +1,44 @@
+---
+import FeaturePage from '../../layouts/FeaturePage.astro';
+
+const steps = [
+  { title: 'Glance at the Markets card', text: 'NIFTY 50 and SENSEX with today’s change and an intraday line, coloured green or red with the market.' },
+  { title: 'Open the Markets app', text: 'Click the card (or press Enter on a market answer in Spotlight) to open a full watchlist with charts.' },
+  { title: 'Build your watchlist', text: 'Search any NSE or BSE stock, add it with one click, drag to reorder, and switch charts from 1 day to 5 years.' },
+];
+
+const faqs = [
+  { q: 'Are NIFTY and SENSEX prices live?', a: 'They are delayed market data, refreshed every minute while the market is open. They are for information only, not investment advice.' },
+  { q: 'How is the gold rate calculated?', a: 'From the international (COMEX) gold price converted to rupees per gram. The India retail estimate adds import duty (6% by default, editable) and 3% GST. Jewellers add making charges on top.' },
+  { q: 'What is a sovereign?', a: 'A sovereign (pavan) is 8 grams of 22-carat gold, the usual unit for jewellery in Tamil Nadu. iWeb shows its price alongside the per-gram rates.' },
+  { q: 'Can I add US or other international stocks?', a: 'The watchlist focuses on NSE and BSE listings, Indian indices, gold and silver.' },
+];
+---
+<FeaturePage
+  title="NIFTY, SENSEX & Gold Rate on Your New Tab · iWeb"
+  description="NIFTY 50, SENSEX, NSE/BSE stocks and today's gold rate (24K, 22K, sovereign) in a beautiful new-tab Markets app."
+  path="/features/markets"
+  crumb="Markets"
+  eyebrow="Markets"
+  heading="NIFTY, SENSEX and gold rates on every new tab."
+  lead="A Markets app inside your browser's new tab, built for India: indices, your NSE/BSE watchlist, interactive charts, and today's gold and silver rates in rupees."
+  steps={steps}
+  faqs={faqs}
+>
+  <p>
+    Checking the market shouldn't mean opening a trading app. iWeb puts
+    <strong>NIFTY 50, SENSEX, NIFTY Bank and NIFTY IT</strong> on your new tab, and a full
+    <strong>Markets app</strong> one click away: a watchlist you can search and reorder,
+    interactive charts from 1 day to 5 years, and key stats like open, high, low, previous close
+    and volume.
+  </p>
+  <h2>Gold and silver, the Indian way</h2>
+  <p>
+    Gold is shown per gram for <strong>24K, 22K and 18K</strong>, plus the price of one
+    <strong>sovereign (8 g of 22K)</strong>. Silver is shown per kg. Switch between the
+    international price and an <strong>India retail estimate</strong> that includes import duty and
+    GST, so the number on your screen is close to what you'd see at a jeweller before making
+    charges.
+  </p>
+  <p class="small">Market data is delayed and for information only. Not investment advice.</p>
+</FeaturePage>

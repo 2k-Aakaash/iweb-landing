@@ -1,0 +1,39 @@
+---
+import FeaturePage from '../../layouts/FeaturePage.astro';
+
+const steps = [
+  { title: 'Open Settings → Wallpaper', text: 'Choose Local Images or Unsplash as your wallpaper source.' },
+  { title: 'Add your photos or discover new ones', text: 'Drag in several photos at once, or pick topics and search Unsplash. Click any picture to set it.' },
+  { title: 'Enjoy it everywhere', text: 'The wallpaper fades in smoothly, stays cached for offline use, and every open tab updates together.' },
+];
+
+const faqs = [
+  { q: 'Can I use my own photos?', a: 'Yes. Import JPEG, PNG or GIF images (several at once); they are stored on your device, not uploaded anywhere.' },
+  { q: 'How many Unsplash photos can I get?', a: 'Up to three new Unsplash photos per day. Photos you have already saved can be switched to any time, even offline.' },
+  { q: 'Are photographers credited?', a: 'Yes. While an Unsplash photo is your wallpaper, the photographer’s name and a link to Unsplash are shown on the page.' },
+];
+---
+<FeaturePage
+  title="Beautiful New Tab Wallpapers · Unsplash & Your Own · iWeb"
+  description="Use your own photos or curated Unsplash photography as your new tab wallpaper, with smooth transitions and offline cache."
+  path="/features/wallpapers"
+  crumb="Wallpapers"
+  eyebrow="Wallpapers"
+  heading="New tab wallpapers that feel like yours."
+  lead="Your own photos or Unsplash photography, smooth crossfades, offline caching, and a clock that adapts its colour to every picture."
+  steps={steps}
+  faqs={faqs}
+>
+  <p>
+    A new tab is the screen you see most, so it should be a picture you love. iWeb lets you
+    <strong>import your own photos</strong> in bulk or <strong>discover photography on Unsplash</strong>
+    by topic or keyword. Choose a picture and it fades in without a flash; the clock picks a colour
+    from the image so it always stays readable.
+  </p>
+  <h2>Built to be fast and kind to your device</h2>
+  <ul>
+    <li>Gallery thumbnails are small, so scrolling your library stays smooth.</li>
+    <li>Wallpapers are cached on your device, so they appear instantly and work offline.</li>
+    <li>Bulk select and delete, duplicate detection on import, and a safe fallback if you delete the current wallpaper.</li>
+  </ul>
+</FeaturePage>

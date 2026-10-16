@@ -1,0 +1,19 @@
+---
+// Accessible FAQ (native <details>); the same list feeds the page's FAQPage JSON-LD.
+const { faqs, heading = 'Frequently asked questions', id = 'faq' } = Astro.props;
+---
+<section class="section" aria-labelledby={`${id}-title`}>
+  <div class="container">
+    <div class="section-head">
+      <h2 id={`${id}-title`} class="h2">{heading}</h2>
+    </div>
+    <div class="faq">
+      {faqs.map((faq) => (
+        <details>
+          <summary>{faq.q}</summary>
+          <p>{faq.a}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>

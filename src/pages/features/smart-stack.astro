@@ -1,0 +1,41 @@
+---
+import FeaturePage from '../../layouts/FeaturePage.astro';
+
+const steps = [
+  { title: 'Open a new tab', text: 'The Smart Stack sits in the top-right corner, starting on the weather.' },
+  { title: 'Scroll or swipe over the card', text: 'Each flick flips to the next widget: weather, currency converter, gold & silver, then markets. Arrow keys work too.' },
+  { title: 'Click to expand', text: 'Every card opens into a full view: the hourly forecast, a converter with any currency pair, purity and unit options for gold, or the Markets app.' },
+];
+
+const faqs = [
+  { q: 'Which widgets are in the Smart Stack?', a: 'Weather, a currency converter, gold & silver prices, and a markets card with NIFTY 50 and SENSEX.' },
+  { q: 'Does the stack need an internet connection?', a: 'Live data does, but every widget keeps its last update so it still shows useful numbers offline.' },
+  { q: 'Can I scroll the page without flipping widgets?', a: 'Yes. The stack only flips while the pointer is over it, and never while a widget is expanded or you are typing.' },
+];
+---
+<FeaturePage
+  title="Smart Stack Widgets for Your New Tab · iWeb"
+  description="Weather, currency converter, gold & silver and markets in one swipeable widget stack, right on your Chrome new tab."
+  path="/features/smart-stack"
+  crumb="Smart Stack"
+  eyebrow="Smart Stack"
+  heading="Four new-tab widgets in one card."
+  lead="A macOS-style Smart Stack for Chrome: weather, a currency converter, gold & silver rates and the markets, one flick apart."
+  steps={steps}
+  faqs={faqs}
+>
+  <p>
+    Most new-tab extensions scatter widgets across the screen. iWeb stacks them. One glass card in
+    the corner shows the weather until you need something else; flick over it and it becomes a
+    <strong>currency converter</strong>, then a <strong>gold &amp; silver</strong> card, then a
+    <strong>markets</strong> card with NIFTY 50 and SENSEX. Your page stays calm, and everything is
+    one gesture away.
+  </p>
+  <h2>Every card earns its place</h2>
+  <ul>
+    <li><strong>Weather:</strong> current conditions, highs and lows, and an hourly forecast for your city.</li>
+    <li><strong>Currency converter:</strong> 36 currencies including INR, USD, AED and SAR, a 7-day trend line, and the card turns green or red with the trend.</li>
+    <li><strong>Gold &amp; silver:</strong> per gram for 24K, 22K and 18K, the price of a sovereign (8 g of 22K), and silver per kg, as an India retail estimate or the international price.</li>
+    <li><strong>Markets:</strong> NIFTY 50 and SENSEX with an intraday chart; one click opens the full Markets app.</li>
+  </ul>
+</FeaturePage>

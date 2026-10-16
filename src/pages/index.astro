@@ -1,0 +1,203 @@
+---
+import Base from '../layouts/Base.astro';
+import Faq from '../components/Faq.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { SITE, LINKS } from '../config/site.js';
+import { getReleases, formatReleaseDate } from '../lib/releases.js';
+import { softwareSchema, websiteSchema, faqSchema } from '../lib/schema.js';
+import { HOME_FAQS, LITTLE_THINGS } from '../content/home.js';
+
+const releases = await getReleases();
+const latest = releases[0] || null;
+const recent = releases.slice(0, 4);
+
+const jsonLd = [websiteSchema(), softwareSchema(latest), faqSchema(HOME_FAQS)];
+---
+<Base
+  title={`${SITE.name}: ${SITE.descriptor}`}
+  description="Turn every new tab into a calm macOS-style dashboard: widgets, Spotlight search, live markets, wallpapers and music. Free, private, no sign-up."
+  jsonLd={jsonLd}
+  bodyClass="home"
+>
+  <!-- 5.1 Hero: the 3D glass letters (step 4) render behind this static heading. -->
+  <section class="hero" data-scene="hero" aria-labelledby="hero-title">
+    <div class="container hero-inner">
+      <h1 id="hero-title" class="display">{SITE.name}</h1>
+      <p class="lead">Your new tab, reimagined as a calm macOS-style dashboard.</p>
+      <div class="actions">
+        <a class="btn btn-primary" href={LINKS.install}>Get {SITE.name} for Chrome</a>
+        <a class="btn btn-ghost" href="#fresh-start">See it in action ↓</a>
+      </div>
+      <ul class="hero-badges">
+        <li>Free</li>
+        <li>Open source</li>
+        <li>No sign-up</li>
+        {latest && <li>Latest {latest.tag}</li>}
+      </ul>
+    </div>
+  </section>
+
+  <!-- 5.2 Every tab is a fresh start -->
+  <section id="fresh-start" class="section" data-scene="laptop" aria-labelledby="fresh-title">
+    <div class="container split">
+      <div>
+        <span class="eyebrow">The dashboard</span>
+        <h2 id="fresh-title" class="h2">Every tab is a fresh start.</h2>
+        <p class="lead">
+          The clock, your name, a quote, your favourite sites and a search bar. {SITE.name} opens
+          instantly and stays out of the way until you need it.
+        </p>
+      </div>
+      <div class="frame" data-media="dashboard" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <!-- 5.3 Smart Stack -->
+  <section class="section" data-scene="smart-stack" aria-labelledby="stack-title">
+    <div class="container split">
+      <div>
+        <span class="eyebrow">Smart Stack</span>
+        <h2 id="stack-title" class="h2">One card. Four widgets.</h2>
+        <p class="lead">
+          Scroll over the weather card and it flips to a currency converter, gold &amp; silver rates,
+          then markets, just like a macOS Smart Stack. Click any card to expand it.
+        </p>
+        <ul class="ticks">
+          <li>Weather with an hourly forecast</li>
+          <li>Currency converter: 36 currencies, works offline</li>
+          <li>Gold 24K / 22K / 18K &amp; sovereign, silver per kg</li>
+          <li>NIFTY 50 &amp; SENSEX at a glance</li>
+        </ul>
+        <a class="text-link" href="/features/smart-stack">Explore the Smart Stack</a>
+      </div>
+      <div class="frame" data-media="smart-stack" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <!-- 5.4 Spotlight -->
+  <section class="section" data-scene="spotlight" aria-labelledby="spotlight-title">
+    <div class="container split">
+      <div>
+        <span class="eyebrow">Spotlight</span>
+        <h2 id="spotlight-title" class="h2">Ask your new tab anything.</h2>
+        <p class="lead">
+          Press Ctrl+K. Type “100 usd to inr”, “nifty” or “22k gold” and get the answer instantly,
+          or jump straight to a web, image, video or map search.
+        </p>
+        <a class="text-link" href="/features/spotlight">See what Spotlight can do</a>
+      </div>
+      <div class="frame" data-media="spotlight" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <!-- 5.5 Markets -->
+  <section class="section" data-scene="markets" aria-labelledby="markets-title">
+    <div class="container split">
+      <div>
+        <span class="eyebrow">Markets</span>
+        <h2 id="markets-title" class="h2">The market, one click away.</h2>
+        <p class="lead">
+          A full Markets app inside your new tab: NIFTY 50, SENSEX, NIFTY Bank and any NSE/BSE stock
+          in your watchlist, with 1D–5Y charts. Gold and silver are priced in rupees, with India
+          retail estimates.
+        </p>
+        <p class="small">Data is delayed and for information only. Not investment advice.</p>
+        <a class="text-link" href="/features/markets">Explore Markets</a>
+      </div>
+      <div class="frame" data-media="markets" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <!-- 5.6 Wallpapers -->
+  <section class="section" data-scene="wallpapers" aria-labelledby="wallpapers-title">
+    <div class="container split">
+      <div>
+        <span class="eyebrow">Wallpapers</span>
+        <h2 id="wallpapers-title" class="h2">Make it yours.</h2>
+        <p class="lead">
+          Drop in your own photos or pick from Unsplash's photographers. Wallpapers fade in smoothly,
+          stay cached for offline use, and the clock adapts its colour to each one.
+        </p>
+        <a class="text-link" href="/features/wallpapers">Explore wallpapers</a>
+      </div>
+      <div class="frame" data-media="wallpapers" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <!-- 5.7 Music & Dynamic Island -->
+  <section class="section" data-scene="music" aria-labelledby="music-title">
+    <div class="container split">
+      <div>
+        <span class="eyebrow">Music</span>
+        <h2 id="music-title" class="h2">Your music, in a Dynamic Island.</h2>
+        <p class="lead">
+          Point {SITE.name} at a folder of songs and it becomes a full music library with playlists,
+          favourites and smart search (“play something calm”). Playback controls live in a Dynamic
+          Island at the top of the page.
+        </p>
+      </div>
+      <div class="frame" data-media="music" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <!-- 5.8 The little things -->
+  <section class="section" data-scene="details" aria-labelledby="details-title">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Details</span>
+        <h2 id="details-title" class="h2">Thoughtful down to the details.</h2>
+      </div>
+      <div class="grid-3">
+        {LITTLE_THINGS.map((item) => (
+          <article class="card">
+            <h3 class="h3">{item.title}</h3>
+            <p>{item.text}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 5.9 Privacy -->
+  <section class="section" data-scene="privacy" aria-labelledby="privacy-title">
+    <div class="container">
+      <h2 id="privacy-title" class="statement">Your tab.<br />Your data.</h2>
+      <p class="lead" style="margin-top: 40px">
+        No account. No tracking. Your notes, music, wallpapers and settings live in your browser and
+        nowhere else. {SITE.name} only goes online for the features you use: weather, rates, markets
+        and photos.
+      </p>
+      <a class="text-link" href="/privacy">Read exactly what is sent</a>
+    </div>
+  </section>
+
+  <!-- 5.10 Always improving -->
+  <section class="section" data-scene="releases" aria-labelledby="releases-title">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Changelog</span>
+        <h2 id="releases-title" class="h2">Always improving.</h2>
+        <p class="lead">New features ship often, and {SITE.name} installs them for you.</p>
+      </div>
+      {recent.length > 0 ? (
+        <ol class="timeline">
+          {recent.map((release) => (
+            <li>
+              <a class="version" href={release.url} rel="noopener">{release.tag}</a>
+              <div>
+                <time datetime={release.date}>{formatReleaseDate(release.date)}</time>
+                <span class="muted">{release.name}</span>
+              </div>
+            </li>
+          ))}
+        </ol>
+      ) : (
+        <p class="muted">See every release on <a href={LINKS.releases} rel="noopener">GitHub</a>.</p>
+      )}
+      <a class="text-link" href="/changelog">Full changelog</a>
+    </div>
+  </section>
+
+  <CtaBand />
+  <Faq faqs={HOME_FAQS} />
+</Base>

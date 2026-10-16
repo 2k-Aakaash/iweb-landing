@@ -1,0 +1,13 @@
+---
+import { LINKS, SITE } from '../config/site.js';
+
+const { heading = 'Start every tab beautifully.', text = 'Free, open source and private. Installs in under a minute.' } = Astro.props;
+---
+<section class="section cta-band" aria-labelledby="cta-title">
+  <h2 id="cta-title" class="h2">{heading}</h2>
+  <p class="lead">{text}</p>
+  <div class="actions">
+    <a class="btn btn-primary" href={LINKS.install}>Get {SITE.name} for Chrome</a>
+    <a class="btn btn-ghost" href={LINKS.github} rel="noopener">View on GitHub</a>
+  </div>
+</section>

@@ -1,0 +1,16 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../config/site.js';
+---
+<Base title={`Page not found · ${SITE.name}`} description="This page doesn't exist." noindex>
+  <section class="hero">
+    <div class="container hero-inner">
+      <h1 class="display">404</h1>
+      <p class="lead">This tab is empty. Let's take you somewhere better.</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="/">Back to {SITE.name}</a>
+        <a class="btn btn-ghost" href="/install">Install {SITE.name}</a>
+      </div>
+    </div>
+  </section>
+</Base>

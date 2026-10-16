@@ -1,0 +1,38 @@
+---
+import FeaturePage from '../../layouts/FeaturePage.astro';
+
+const steps = [
+  { title: 'Press Ctrl+K (or ⌘K)', text: 'Spotlight opens over your new tab, ready to type.' },
+  { title: 'Ask for an answer', text: 'Type a conversion like “100 usd to inr”, an index like “nifty”, or “22k gold”. The answer card appears at the top instantly.' },
+  { title: 'Act on it', text: 'Press Enter to copy a conversion or open the Markets app on a symbol; Ctrl+Enter sends a currency pair to the widget or a stock to your watchlist.' },
+];
+
+const faqs = [
+  { q: 'What can I type into Spotlight?', a: 'Currency conversions (“$50 in rupees”, “2 lakh inr to aed”), indices (“sensex”, “bank nifty”), metals (“gold rate”, “sovereign rate”, “silver price”), stocks (“reliance share price”, “TCS.NS”), and normal web searches.' },
+  { q: 'Is my typing sent anywhere?', a: 'Matching happens on your device. Rate and market answers are fetched when your query asks for them, a web search opens Google, and the Maps tab shows Google Maps for your query.' },
+];
+---
+<FeaturePage
+  title="Spotlight Search for Chrome's New Tab · iWeb"
+  description="Press Ctrl+K for instant answers: convert currencies, check NIFTY or gold rates, search the web and your bookmarks."
+  path="/features/spotlight"
+  crumb="Spotlight"
+  eyebrow="Spotlight"
+  heading="Spotlight search for your Chrome new tab."
+  lead="A keyboard-first command palette with instant answers for currencies, markets and gold, plus quick web, image, video and map search."
+  steps={steps}
+  faqs={faqs}
+>
+  <p>
+    Spotlight brings the macOS habit of <strong>press a key, type, done</strong> to Chrome. Open
+    it with Ctrl+K from any new tab and start typing; answers appear as you type, and the keyboard
+    does the rest.
+  </p>
+  <h2>Instant answers</h2>
+  <ul>
+    <li><strong>Currency:</strong> “100 usd to inr”, “$50 in rupees”, “1.5k eur → gbp”, “2 lakh inr to aed”.</li>
+    <li><strong>Indices:</strong> “nifty”, “sensex”, “bank nifty”, “india vix”.</li>
+    <li><strong>Gold &amp; silver:</strong> “gold rate”, “22k gold”, “sovereign rate”, “silver price”.</li>
+    <li><strong>Stocks:</strong> “reliance share price”, “infosys stock”, “TCS.NS”.</li>
+  </ul>
+</FeaturePage>

@@ -1,0 +1,74 @@
+---
+// Shared shell for /features/*: breadcrumbs, keyword H1, intro, how-it-works steps,
+// a mini FAQ (also emitted as FAQPage JSON-LD), related features and the install CTA.
+import Base from './Base.astro';
+import Faq from '../components/Faq.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { NAV } from '../config/site.js';
+import { breadcrumbSchema, faqSchema } from '../lib/schema.js';
+
+const { title, description, path, crumb, eyebrow, heading, lead, steps = [], faqs = [] } = Astro.props;
+
+const crumbs = [
+  { name: 'Home', href: '/' },
+  { name: crumb, href: path },
+];
+const jsonLd = [breadcrumbSchema(crumbs), ...(faqs.length ? [faqSchema(faqs)] : [])];
+const related = NAV.filter((item) => item.href.startsWith('/features/') && item.href !== path);
+---
+<Base title={title} description={description} jsonLd={jsonLd}>
+  <section class="page-hero">
+    <div class="container">
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <ol>
+          {crumbs.map((c, i) => <li>{i < crumbs.length - 1 ? <a href={c.href}>{c.name}</a> : <span aria-current="page">{c.name}</span>}</li>)}
+        </ol>
+      </nav>
+      <span class="eyebrow">{eyebrow}</span>
+      <h1 class="h1">{heading}</h1>
+      <p class="lead">{lead}</p>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top: 0">
+    <div class="container prose">
+      <slot />
+    </div>
+  </section>
+
+  {steps.length > 0 && (
+    <section class="section" aria-labelledby="how-title" style="padding-top: 0">
+      <div class="container">
+        <div class="section-head">
+          <h2 id="how-title" class="h2">How it works</h2>
+        </div>
+        <ol class="steps">
+          {steps.map((step) => (
+            <li>
+              <h3 class="h3">{step.title}</h3>
+              <p>{step.text}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+  )}
+
+  {faqs.length > 0 && <Faq faqs={faqs} heading="Questions" />}
+
+  <section class="section" aria-labelledby="related-title" style="padding-top: 0">
+    <div class="container">
+      <div class="section-head"><h2 id="related-title" class="h3">More in iWeb</h2></div>
+      <div class="grid-3">
+        {related.map((item) => (
+          <a class="card" href={item.href} style="text-decoration:none">
+            <h3 class="h3">{item.label}</h3>
+            <p>Explore {item.label.toLowerCase()} →</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>

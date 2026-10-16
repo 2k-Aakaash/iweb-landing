@@ -1,0 +1,72 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE, LINKS } from '../config/site.js';
+import { getLatestRelease, formatReleaseDate } from '../lib/releases.js';
+import { breadcrumbSchema } from '../lib/schema.js';
+
+const latest = await getLatestRelease();
+const download = latest?.zipUrl || LINKS.latestRelease;
+
+const howTo = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: `How to install ${SITE.name} in Chrome`,
+  totalTime: 'PT1M',
+  step: [
+    { '@type': 'HowToStep', name: 'Download', text: `Download iWeb.Extension.zip from the latest ${SITE.name} release.` },
+    { '@type': 'HowToStep', name: 'Unzip', text: 'Unzip it into a folder you will keep, such as Documents/iWeb.' },
+    { '@type': 'HowToStep', name: 'Load it', text: 'Open chrome://extensions, turn on Developer mode, click Load unpacked and choose that folder.' },
+    { '@type': 'HowToStep', name: 'Open a new tab', text: `Open a new tab: ${SITE.name} is your new home.` },
+  ],
+};
+---
+<Base
+  title={`How to Install ${SITE.name} for Chrome`}
+  description={`Download the latest ${SITE.name} release and load it in Chrome in under a minute. Updates install with one click.`}
+  jsonLd={[howTo, breadcrumbSchema([{ name: 'Home', href: '/' }, { name: 'Install', href: '/install' }])]}
+>
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow">Install</span>
+      <h1 class="h1">Get {SITE.name} in under a minute.</h1>
+      <p class="lead">
+        {SITE.name} isn't on the Chrome Web Store yet, so you install it from the official release.
+        It's four steps, and after that it updates itself.
+      </p>
+      <div class="actions" style="margin-top: 32px">
+        <a class="btn btn-primary" href={download} rel="noopener">
+          Download {latest ? latest.tag : 'the latest release'}
+        </a>
+        {latest && <span class="small">Released {formatReleaseDate(latest.date)}</span>}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top: 0" aria-labelledby="steps-title">
+    <div class="container">
+      <h2 id="steps-title" class="h3" style="margin-bottom: 24px">Steps</h2>
+      <ol class="steps">
+        <li><h3 class="h3">Download</h3><p>Download <code>iWeb.Extension.zip</code> using the button above.</p></li>
+        <li><h3 class="h3">Unzip it</h3><p>Unzip it into a folder you'll keep, for example <code>Documents/iWeb</code>. Chrome loads the extension from this folder, so don't delete it.</p></li>
+        <li><h3 class="h3">Load it in Chrome</h3><p>Open <code>chrome://extensions</code>, turn on <strong>Developer mode</strong> (top right), click <strong>Load unpacked</strong> and choose the folder.</p></li>
+        <li><h3 class="h3">Open a new tab</h3><p>{SITE.name} is now your new tab. Edge, Brave and Arc work the same way.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top: 0">
+    <div class="container prose">
+      <h2>Updating</h2>
+      <p>
+        When a new version is out, {SITE.name} shows a small notice. Open <strong>Settings → About →
+        Software Update</strong>, choose the folder from step 2 the first time, and click
+        <strong>Update Now</strong>. The download is verified before anything is replaced.
+      </p>
+      <h2>Uninstalling</h2>
+      <p>
+        Remove {SITE.name} from <code>chrome://extensions</code>. Your data lives in the browser, so
+        export a backup first from Settings → Data Controls if you want to keep it.
+      </p>
+    </div>
+  </section>
+</Base>

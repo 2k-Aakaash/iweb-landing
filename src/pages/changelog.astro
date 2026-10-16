@@ -1,0 +1,54 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE, LINKS } from '../config/site.js';
+import { getReleases, formatReleaseDate } from '../lib/releases.js';
+import { breadcrumbSchema } from '../lib/schema.js';
+
+const releases = await getReleases();
+
+const itemList = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: `${SITE.name} releases`,
+  itemListElement: releases.map((release, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    name: release.name,
+    url: release.url,
+  })),
+};
+---
+<Base
+  title={`${SITE.name} Changelog: What's New`}
+  description={`Every ${SITE.name} release, newest first.`}
+  jsonLd={[itemList, breadcrumbSchema([{ name: 'Home', href: '/' }, { name: 'Changelog', href: '/changelog' }])]}
+>
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow">Changelog</span>
+      <h1 class="h1">What's new in {SITE.name}.</h1>
+      <p class="lead">Every release, newest first. {SITE.name} installs updates for you from Settings → About.</p>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top: 0">
+    <div class="container">
+      {releases.length > 0 ? (
+        <ol class="timeline">
+          {releases.map((release) => (
+            <li>
+              <a class="version" href={release.url} rel="noopener">{release.tag}</a>
+              <div>
+                <time datetime={release.date}>{formatReleaseDate(release.date)}</time>
+                <span>{release.name}</span>
+                {release.summary && <p class="muted" style="margin: 6px 0 0">{release.summary}</p>}
+              </div>
+            </li>
+          ))}
+        </ol>
+      ) : (
+        <p class="muted">Release notes are on <a href={LINKS.releases} rel="noopener">GitHub</a>.</p>
+      )}
+    </div>
+  </section>
+</Base>

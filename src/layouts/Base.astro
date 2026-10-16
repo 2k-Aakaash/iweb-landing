@@ -1,0 +1,104 @@
+---
+import '@fontsource-variable/inter';
+import '../styles/global.css';
+import { SITE, LINKS, NAV } from '../config/site.js';
+
+const {
+  title,
+  description,
+  jsonLd = [],
+  noindex = false,
+  bodyClass = '',
+} = Astro.props;
+
+const pageTitle = title ? `${title}` : `${SITE.name}: ${SITE.descriptor}`;
+// Clean URL ("/install", "/"): pages build as .html files that Vercel serves without the extension.
+const current = Astro.url.pathname.replace(/(index)?\.html$/, '').replace(/\/$/, '');
+const canonical = new URL(current || '/', SITE.url).href;
+const year = new Date().getFullYear();
+---
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <meta name="theme-color" content={SITE.themeColor} />
+    <meta name="color-scheme" content="dark" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="preload" href="/fonts/ClashDisplay-Variable.woff2" as="font" type="font/woff2" crossorigin />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:locale" content={SITE.locale} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+
+    {jsonLd.map((data) => <script type="application/ld+json" set:html={JSON.stringify(data)} />)}
+  </head>
+  <body class={bodyClass}>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+      <nav class="nav" aria-label="Main">
+        <a class="brand" href="/" aria-label={`${SITE.name} home`}>
+          <img src="/favicon.svg" alt="" width="28" height="28" />
+          <span>{SITE.name}</span>
+        </a>
+        <ul class="nav-links">
+          {NAV.map((item) => (
+            <li><a href={item.href} aria-current={current === item.href ? 'page' : undefined}>{item.label}</a></li>
+          ))}
+        </ul>
+        <a class="btn btn-primary btn-small" href={LINKS.install}>Get iWeb</a>
+      </nav>
+    </header>
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="brand" href="/"><img src="/favicon.svg" alt="" width="28" height="28" /><span>{SITE.name}</span></a>
+          <p>{SITE.tagline} Free, open source and private by design.</p>
+        </div>
+        <div>
+          <h2 class="footer-title">Features</h2>
+          <ul>
+            {NAV.slice(0, 4).map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+          </ul>
+        </div>
+        <div>
+          <h2 class="footer-title">Product</h2>
+          <ul>
+            <li><a href="/install">Install</a></li>
+            <li><a href="/changelog">Changelog</a></li>
+            <li><a href="/privacy">Privacy</a></li>
+            <li><a href={LINKS.github} rel="noopener">GitHub</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="footer-title">Creator</h2>
+          <ul>
+            <li><a href={SITE.author.url} rel="author noopener">{SITE.author.name}</a></li>
+            <li><a href={SITE.author.github} rel="noopener">GitHub profile</a></li>
+            <li><a href={LINKS.issues} rel="noopener">Report an issue</a></li>
+          </ul>
+        </div>
+      </div>
+      <p class="footer-legal">
+        © {year} {SITE.author.name}. {SITE.name} is not affiliated with Apple. Unsplash photos are credited to their photographers.
+      </p>
+    </footer>
+  </body>
+</html>

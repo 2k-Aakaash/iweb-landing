@@ -1,0 +1,77 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE, LINKS } from '../config/site.js';
+import { breadcrumbSchema } from '../lib/schema.js';
+
+const services = [
+  { feature: 'Weather', service: 'ipapi.co', sent: 'Your IP address (to estimate your city), when no city is set' },
+  { feature: 'Weather', service: 'api.met.no', sent: 'Approximate coordinates of your city' },
+  { feature: 'Weather', service: 'nominatim.openstreetmap.org, api.bigdatacloud.net', sent: 'The city you search for, or coordinates to name your location' },
+  { feature: 'Weather icons', service: 'cdn.jsdelivr.net', sent: 'Standard file requests' },
+  { feature: 'Currency rates', service: 'open.er-api.com, api.frankfurter.dev', sent: 'The currency codes you convert between' },
+  { feature: 'Gold & silver (fallback)', service: 'cdn.jsdelivr.net', sent: 'Standard file requests' },
+  { feature: 'Markets & Unsplash', service: 'iweb-two.vercel.app (iWeb’s own proxy to Yahoo Finance and the Unsplash API)', sent: 'Symbols, chart ranges, searches and photo topics you choose' },
+  { feature: 'Unsplash photos', service: 'images.unsplash.com', sent: 'Image requests for the photos you view' },
+  { feature: 'Site icons', service: 'Google and DuckDuckGo favicon services', sent: 'The domain of each site in your dock and search results' },
+  { feature: 'Spotlight', service: 'Google (web search, Maps tab)', sent: 'Your query, only when you open a web search or the Maps tab' },
+  { feature: 'App logo', service: 'ik.imagekit.io', sent: 'Standard file request' },
+  { feature: 'Updates', service: 'api.github.com, github.com', sent: 'A check for the latest release (about every 6 hours) and the update download' },
+];
+---
+<Base
+  title={`Privacy · ${SITE.name}`}
+  description={`${SITE.name} stores your data in your browser. Here is exactly which services it talks to and why.`}
+  jsonLd={[breadcrumbSchema([{ name: 'Home', href: '/' }, { name: 'Privacy', href: '/privacy' }])]}
+>
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow">Privacy</span>
+      <h1 class="h1">Your tab. Your data.</h1>
+      <p class="lead">{SITE.name} has no accounts, no analytics and no ads. Here is exactly what stays on your device and what goes online.</p>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top: 0">
+    <div class="container prose">
+      <h2>What stays on your device</h2>
+      <p>
+        Everything you create or choose: your name, notes, dock sites, wallpapers, music library and
+        playlists, watchlist, currency pairs, fonts and settings. It is stored in your browser's
+        local storage (IndexedDB and localStorage) and never uploaded by {SITE.name}. Your local
+        photos and music files are never sent anywhere.
+      </p>
+
+      <h2>What goes online, and why</h2>
+      <p>{SITE.name} only contacts these services for the features you use:</p>
+      <table>
+        <thead><tr><th scope="col">Feature</th><th scope="col">Service</th><th scope="col">What is sent</th></tr></thead>
+        <tbody>
+          {services.map((row) => (
+            <tr><td>{row.feature}</td><td>{row.service}</td><td>{row.sent}</td></tr>
+          ))}
+        </tbody>
+      </table>
+      <p>
+        Like any website, these services receive your IP address with each request. {SITE.name}'s
+        own proxy runs on Vercel and keeps no logs of its own beyond Vercel's standard request logs.
+      </p>
+
+      <h2>What {SITE.name} never does</h2>
+      <ul>
+        <li>No account or sign-up.</li>
+        <li>No analytics, tracking pixels or advertising.</li>
+        <li>No selling or sharing of your data.</li>
+      </ul>
+
+      <h2>Your control</h2>
+      <p>
+        Export or import everything from <strong>Settings → Data Controls</strong>. Removing the
+        extension deletes its stored data from your browser.
+      </p>
+
+      <h2>Contact</h2>
+      <p>Questions or concerns: open an issue on <a href={LINKS.issues} rel="noopener">GitHub</a>.</p>
+      <p class="small">Last updated: October 2026.</p>
+    </div>
+  </section>
+</Base>

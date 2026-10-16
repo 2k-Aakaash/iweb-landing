@@ -1,0 +1,8 @@
+docs/CONTENT_PLAN.md
+
+# Build
+node_modules/
+dist/
+.astro/
+.vercel/
+.env
