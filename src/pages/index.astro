@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 import Faq from '../components/Faq.astro';
 import Marquee from '../components/Marquee.astro';
 import Shot from '../components/Shot.astro';
-import TabWorld from '../components/TabWorld.astro';
+import Hero3D from '../components/Hero3D.astro';
 import { SITE, LINKS } from '../config/site.js';
 import { getReleases, formatReleaseDate } from '../lib/releases.js';
 import { softwareSchema, websiteSchema, faqSchema } from '../lib/schema.js';
@@ -68,7 +68,7 @@ const FEATURES = [
   jsonLd={jsonLd}
   bodyClass="home"
 >
-  <TabWorld latest={latest} />
+  <Hero3D latest={latest} />
 
   <Marquee items={['Smart Stack', 'Spotlight', 'Markets', 'Wallpapers', 'Music', 'Notes']} direction={1} />
   <Marquee items={['Your new tab, reimagined', 'Free & open source', 'Private by design']} direction={-1} outline />

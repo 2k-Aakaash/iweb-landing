@@ -1,0 +1,89 @@
+/* Hero: floating 3D glass dashboard + static fallback. */
+
+.hero3d-pin {
+  position: relative;
+  height: 100svh;
+  min-height: 620px;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.hero3d-stage {
+  position: absolute;
+  inset: 0;
+}
+
+.hero3d-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Painted backdrop until WebGL is ready, and as the static hero. */
+.hero3d-fallback {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(40% 45% at 30% 38%, rgba(10, 70, 180, 0.55), transparent 70%),
+    radial-gradient(38% 42% at 72% 62%, rgba(107, 46, 184, 0.45), transparent 70%),
+    radial-gradient(22% 20% at 58% 20%, rgba(180, 115, 30, 0.35), transparent 70%),
+    #06070d;
+  transition: opacity 1.2s var(--ease);
+}
+
+.hero3d-ready .hero3d-fallback {
+  opacity: 0;
+}
+
+.hero3d-overlay {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 24px;
+  padding: 120px var(--gutter) 80px;
+  text-align: center;
+  pointer-events: none;
+}
+
+.hero3d-overlay .actions,
+.hero3d-overlay .hero-badges {
+  pointer-events: auto;
+}
+
+.hero3d-title {
+  font-size: clamp(5rem, 17vw, 14rem);
+  font-weight: 600;
+  line-height: 0.85;
+  letter-spacing: -0.05em;
+  text-shadow: 0 20px 80px rgba(5, 10, 30, 0.7);
+}
+
+.hero3d-lead {
+  margin: 0;
+  max-width: 32ch;
+  font-size: clamp(1.15rem, 1.8vw, 1.5rem);
+  color: rgba(245, 245, 247, 0.85);
+  text-shadow: 0 2px 24px rgba(5, 10, 30, 0.9);
+}
+
+.hero3d-hint {
+  position: absolute;
+  left: 50%;
+  bottom: 28px;
+  z-index: 2;
+  margin: 0;
+  transform: translateX(-50%);
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(245, 245, 247, 0.55);
+}
+
+.hero3d-static .hero3d-hint,
+html:not(.motion) .hero3d-hint {
+  display: none;
+}

@@ -1,0 +1,32 @@
+---
+// Hero: iWeb's interface as floating 3D glass panels that assemble into the new tab on
+// scroll (src/scripts/hero). The heading, copy and CTAs are real HTML on top; without
+// WebGL / with reduced motion the hero is static and fully readable.
+import { SITE, LINKS } from '../config/site.js';
+
+const { latest } = Astro.props;
+---
+<section class="hero3d" data-hero3d aria-labelledby="hero-title">
+  <div class="hero3d-pin">
+    <div class="hero3d-stage" data-hero3d-stage>
+      <div class="hero3d-fallback" aria-hidden="true"></div>
+    </div>
+
+    <div class="hero3d-overlay" data-hero3d-intro>
+      <h1 id="hero-title" class="hero3d-title">{SITE.name}</h1>
+      <p class="hero3d-lead">Your new tab, reimagined as a calm macOS-style dashboard.</p>
+      <div class="actions">
+        <a class="btn btn-primary" href={LINKS.install} data-magnetic>Get {SITE.name} for Chrome</a>
+        <a class="btn btn-ghost" href="#fresh-start" data-magnetic>See it in action ↓</a>
+      </div>
+      <ul class="hero-badges">
+        <li>Free</li>
+        <li>Open source</li>
+        <li>No sign-up</li>
+        {latest && <li>Latest {latest.tag}</li>}
+      </ul>
+    </div>
+
+    <p class="hero3d-hint" data-hero3d-hint aria-hidden="true">Scroll to build your new tab</p>
+  </div>
+</section>

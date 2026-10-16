@@ -7,7 +7,7 @@
 import { initSmoothScroll } from './smooth.js';
 import { initParallax, initDomHeadings } from './parallax.js';
 import { initShowcase } from './showcase.js';
-import { initWorld } from '../world/controller.js';
+import { initHero3D } from '../hero/controller.js';
 
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -25,7 +25,7 @@ async function start() {
   const lenis = initSmoothScroll();
   // Pinned set pieces first: ScrollTrigger positions later triggers using the pin spacing,
   // so reveals created before the pins would fire too early.
-  initWorld(); // first pinned section on the page
+  initHero3D(); // first pinned section on the page
   initShowcase(lenis);
   initParallax();
 

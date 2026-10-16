@@ -785,7 +785,7 @@ html.lenis body {
 
 /* Once the 3D letters are drawn, the DOM text stays in place (for SEO, selection and
    screen readers) but invisible. */
-html.gl-text-ready main h1:not(.world-title),
+html.gl-text-ready main h1:not(.hero3d-title),
 html.gl-text-ready main h2.h2 {
   color: transparent;
 }
