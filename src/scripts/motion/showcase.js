@@ -72,8 +72,7 @@ function pinnedZoom() {
       y: () => -(frame.getBoundingClientRect().top - (window.innerHeight - frame.offsetHeight) / 2) * 0.6,
       borderRadius: 0,
       duration: 0.75,
-    }, 0)
-    .to(frame, { filter: 'brightness(0.55)', duration: 0.25 }, 0.75);
+    }, 0);
 }
 
 // ── Horizontal gallery: vertical scroll moves the feature panels sideways ──────────────
@@ -99,7 +98,7 @@ function horizontalGallery() {
     const frame = panel.querySelector('.hpanel-frame');
     const copy = panel.querySelector('.hpanel-copy');
     const st = { trigger: panel, containerAnimation: tween, start: 'left right', end: 'right left', scrub: true };
-    if (frame) gsap.fromTo(frame, { xPercent: 18, rotateY: -14, transformPerspective: 1400 }, { xPercent: -18, rotateY: 10, ease: 'none', scrollTrigger: st });
+    if (frame) gsap.fromTo(frame, { xPercent: 14 }, { xPercent: -14, ease: 'none', scrollTrigger: st });
     if (copy) gsap.fromTo(copy, { xPercent: -6, opacity: 0.35 }, { xPercent: 6, opacity: 1, ease: 'none', scrollTrigger: { ...st, end: 'center center' } });
   });
 }

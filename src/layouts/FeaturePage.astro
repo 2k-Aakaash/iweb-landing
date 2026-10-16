@@ -4,10 +4,11 @@
 import Base from './Base.astro';
 import Faq from '../components/Faq.astro';
 import CtaBand from '../components/CtaBand.astro';
+import Shot from '../components/Shot.astro';
 import { NAV } from '../config/site.js';
 import { breadcrumbSchema, faqSchema } from '../lib/schema.js';
 
-const { title, description, path, crumb, eyebrow, heading, lead, steps = [], faqs = [] } = Astro.props;
+const { title, description, path, crumb, eyebrow, heading, lead, view = null, viewAlt = '', steps = [], faqs = [] } = Astro.props;
 
 const crumbs = [
   { name: 'Home', href: '/' },
@@ -17,8 +18,9 @@ const jsonLd = [breadcrumbSchema(crumbs), ...(faqs.length ? [faqSchema(faqs)] : 
 const related = NAV.filter((item) => item.href.startsWith('/features/') && item.href !== path);
 ---
 <Base title={title} description={description} jsonLd={jsonLd}>
-  <section class="page-hero">
-    <div class="container">
+  <section class={view ? 'page-hero page-hero-split' : 'page-hero'}>
+    <div class="container page-hero-grid">
+      <div class="page-hero-copy">
       <nav class="breadcrumbs" aria-label="Breadcrumb">
         <ol>
           {crumbs.map((c, i) => <li>{i < crumbs.length - 1 ? <a href={c.href}>{c.name}</a> : <span aria-current="page">{c.name}</span>}</li>)}
@@ -27,6 +29,8 @@ const related = NAV.filter((item) => item.href.startsWith('/features/') && item.
       <span class="eyebrow">{eyebrow}</span>
       <h1 class="h1">{heading}</h1>
       <p class="lead">{lead}</p>
+      </div>
+      {view && <Shot name={view} view={view} alt={viewAlt} class="page-hero-view" />}
     </div>
   </section>
 

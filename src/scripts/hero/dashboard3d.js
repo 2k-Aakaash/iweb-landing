@@ -10,21 +10,21 @@ import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js';
 
-const FONT_DISPLAY = "'Clash Display', 'Inter Variable', sans-serif";
-const FONT_BODY = "'Inter Variable', system-ui, sans-serif";
-const PX = 64; // canvas pixels per world unit for panel artwork
+export const FONT_DISPLAY = "'Clash Display', 'Inter Variable', sans-serif";
+export const FONT_BODY = "'Inter Variable', system-ui, sans-serif";
+export const PX = 64; // canvas pixels per world unit for panel artwork
 
 const clamp01 = (v) => Math.min(1, Math.max(0, v));
 const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2);
 
 // ── Panel artwork (drawn on canvases) ─────────────────────────────────────────────────
 
-function roundRect(ctx, x, y, w, h, r) {
+export function roundRect(ctx, x, y, w, h, r) {
   ctx.beginPath();
   ctx.roundRect(x, y, w, h, r);
 }
 
-function sparkline(ctx, x, y, w, h, color, seed = 1) {
+export function sparkline(ctx, x, y, w, h, color, seed = 1) {
   const pts = [];
   let v = 0.5;
   for (let i = 0; i < 28; i += 1) {
@@ -49,7 +49,7 @@ function sparkline(ctx, x, y, w, h, color, seed = 1) {
   ctx.fill();
 }
 
-const ART = {
+export const ART = {
   clock(ctx, w, h) {
     ctx.fillStyle = '#ffffff';
     ctx.textAlign = 'center';
@@ -208,7 +208,7 @@ const ART = {
   },
 };
 
-function artTexture(kind, w, h, renderer) {
+export function artTexture(kind, w, h, renderer) {
   const canvas = document.createElement('canvas');
   canvas.width = Math.round(w * PX);
   canvas.height = Math.round(h * PX);
@@ -245,7 +245,7 @@ function scatterFor(index) {
 
 // ── Materials ─────────────────────────────────────────────────────────────────────────
 
-const GLASS_VERT = /* glsl */ `
+export const GLASS_VERT = /* glsl */ `
   uniform vec2 uSize;
   varying vec2 vUv;
   varying vec3 vNormal;
@@ -261,7 +261,7 @@ const GLASS_VERT = /* glsl */ `
   }
 `;
 
-const GLASS_FRAG = /* glsl */ `
+export const GLASS_FRAG = /* glsl */ `
   uniform sampler2D tBackdrop;
   uniform sampler2D tArt;
   uniform vec2 uResolution;
@@ -295,7 +295,7 @@ const GLASS_FRAG = /* glsl */ `
   }
 `;
 
-function panelGeometry(w, h, radius, depth) {
+export function panelGeometry(w, h, radius, depth) {
   const shape = new THREE.Shape();
   const x = -w / 2;
   const y = -h / 2;
@@ -321,7 +321,7 @@ function panelGeometry(w, h, radius, depth) {
   return geometry;
 }
 
-const BACKDROP_FRAG = /* glsl */ `
+export const BACKDROP_FRAG = /* glsl */ `
   uniform float uTime;
   uniform vec2 uPointer;
   varying vec2 vUv;
@@ -338,7 +338,7 @@ const BACKDROP_FRAG = /* glsl */ `
   }
 `;
 
-const FINISH = {
+export const FINISH = {
   uniforms: { tDiffuse: { value: null }, uTime: { value: 0 } },
   vertexShader: 'varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }',
   fragmentShader: /* glsl */ `

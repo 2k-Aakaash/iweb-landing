@@ -73,7 +73,7 @@ export function initParallax() {
   }
 
   // Product frames: depth parallax plus a 3D tilt that settles flat mid-screen.
-  gsap.utils.toArray('main .frame:not(.zoom-frame):not(.hpanel-frame)').forEach((frame) => {
+  gsap.utils.toArray('main .frame:not(.zoom-frame):not(.hpanel-frame):not([data-view])').forEach((frame) => {
     gsap.set(frame, { transformPerspective: 1400, transformOrigin: '50% 60%' });
     gsap.timeline({
       scrollTrigger: { trigger: frame, start: 'top bottom', end: 'bottom top', scrub: 0.8 },

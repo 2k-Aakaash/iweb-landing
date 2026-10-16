@@ -793,3 +793,21 @@ html.gl-text-ready main h2.h2 {
 html.motion .frame {
   will-change: transform;
 }
+
+/* Feature pages: copy beside a live 3D view. */
+.page-hero-split .page-hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.05fr;
+  gap: clamp(32px, 5vw, 72px);
+  align-items: center;
+}
+
+.page-hero-split .h1 {
+  font-size: clamp(2.4rem, 4.6vw, 4.4rem);
+}
+
+@media (max-width: 899px) {
+  .page-hero-split .page-hero-grid {
+    grid-template-columns: 1fr;
+  }
+}

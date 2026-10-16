@@ -25,6 +25,7 @@ const FEATURES = [
     href: '/features/smart-stack',
     link: 'Explore the Smart Stack',
     shot: 'stack-gold-expanded',
+    view: 'stack',
     alt: 'iWeb Smart Stack showing the gold and silver card expanded on the new tab',
   },
   {
@@ -36,6 +37,7 @@ const FEATURES = [
     href: '/features/spotlight',
     link: 'See what Spotlight can do',
     shot: 'spotlight-currency',
+    view: 'spotlight',
     alt: 'iWeb Spotlight search answering 100 USD to INR',
   },
   {
@@ -47,6 +49,7 @@ const FEATURES = [
     href: '/features/markets',
     link: 'Explore Markets',
     shot: 'markets-app',
+    view: 'markets',
     alt: 'iWeb Markets app showing the NIFTY 50 chart and watchlist',
   },
   {
@@ -58,6 +61,7 @@ const FEATURES = [
     href: '/features/wallpapers',
     link: 'Explore wallpapers',
     shot: 'wallpapers-settings',
+    view: 'wallpapers',
     alt: 'iWeb wallpaper settings with the Unsplash gallery',
   },
 ];
@@ -84,7 +88,7 @@ const FEATURES = [
           instantly and stays out of the way until you need it.
         </p>
       </div>
-      <Shot name="dashboard" alt="The iWeb new tab dashboard with clock, greeting, search, Smart Stack and dock" class="zoom-frame" sizes="100vw" />
+      <Shot name="dashboard" view="dashboard" alt="The iWeb new tab dashboard with clock, greeting, search, Smart Stack and dock" class="zoom-frame" sizes="100vw" />
     </div>
   </section>
 
@@ -107,7 +111,7 @@ const FEATURES = [
               <ul class="ticks">{feature.ticks.map((tick) => <li>{tick}</li>)}</ul>
               <a class="text-link" href={feature.href}>{feature.link}</a>
             </div>
-            <Shot name={feature.shot} alt={feature.alt} class="hpanel-frame" sizes="(min-width: 900px) 45vw, 100vw" />
+            <Shot name={feature.shot} view={feature.view} alt={feature.alt} class="hpanel-frame" sizes="(min-width: 900px) 45vw, 100vw" />
           </article>
         ))}
       </div>
@@ -126,13 +130,7 @@ const FEATURES = [
           Island at the top of the page.
         </p>
       </div>
-      <div class="island-demo" aria-hidden="true">
-        <div class="island">
-          <span class="island-art"></span>
-          <span class="island-text"><strong>Midnight City</strong><span>Now playing</span></span>
-          <span class="island-wave"><i></i><i></i><i></i><i></i><i></i></span>
-        </div>
-      </div>
+      <Shot name="music" view="music" alt="iWeb music player with a spinning album disc, Dynamic Island and equaliser" />
     </div>
   </section>
 

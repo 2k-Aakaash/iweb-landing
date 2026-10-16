@@ -29,6 +29,12 @@ async function start() {
   initShowcase(lenis);
   initParallax();
 
+  if (supportsWebGL()) {
+    import('../views/sectionViews.js')
+      .then(({ initSectionViews }) => initSectionViews())
+      .catch((err) => console.warn('[motion] section 3D views unavailable:', err));
+  }
+
   const wantsGl = window.innerWidth >= 900 && supportsWebGL();
   if (!wantsGl) {
     initDomHeadings();
