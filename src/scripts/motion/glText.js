@@ -144,7 +144,10 @@ async function buildHeading(el, index) {
     letters.push({ pivot, text, span: chars[i], dx: 0, dy: 0, rx: hash(seed) - 0.5, ry: hash(seed + 0.5) - 0.5, rz: hash(seed + 0.25) - 0.5 });
   }
   await Promise.all(letters.map((l) => syncText(l.text)));
-  return { el, group, letters, enter: 0, exit: 0, hero: Boolean(el.closest('.hero')) };
+  // Headings in the last screen of the page never scatter (they can't scroll past the exit).
+  const docTop = el.getBoundingClientRect().top + window.scrollY;
+  const atEnd = docTop > document.documentElement.scrollHeight - window.innerHeight * 1.6;
+  return { el, group, letters, enter: 0, exit: 0, hero: Boolean(el.closest('.hero')), atEnd };
 }
 
 // Character offsets relative to the heading's box (re-measured on resize / font swap).
@@ -243,13 +246,16 @@ export async function initGlText() {
 
     for (const heading of headings) {
       const box = heading.el.getBoundingClientRect();
-      const visible = box.bottom > -height * 0.5 && box.top < height * 1.5;
+      const visible = box.bottom > -height * 0.5 && box.top < height * 1.5 && box.right > -width * 0.3 && box.left < width * 1.3;
       heading.group.visible = visible;
       if (!visible) continue;
 
       // Enter: top crosses from 95% to 45% of the viewport. Exit: bottom from 32% to 0%.
-      const enterTarget = heading.hero ? intro : Math.min(intro, clamp01((height * 0.95 - box.top) / (height * 0.5)));
-      const exitTarget = clamp01((height * 0.32 - box.bottom) / (height * 0.32));
+      // Horizontal entry too, for headings in the sideways gallery.
+      const enterX = clamp01((width * 1.05 - box.left) / (width * 0.55));
+      const enterY = clamp01((height * 0.95 - box.top) / (height * 0.5));
+      const enterTarget = heading.hero ? intro : Math.min(intro, enterY, enterX);
+      const exitTarget = heading.atEnd ? 0 : clamp01((height * 0.32 - box.bottom) / (height * 0.32));
       heading.enter += (enterTarget - heading.enter) * k;
       heading.exit += (exitTarget - heading.exit) * k;
 

@@ -1,0 +1,13 @@
+---
+// Giant kinetic type band. Duplicated track so it loops seamlessly; JS drives speed from
+// scroll velocity (and skews it). Decorative: hidden from assistive tech.
+const { items, direction = 1, outline = false } = Astro.props;
+const track = [...items, ...items];
+---
+<div class={`marquee${outline ? ' marquee-outline' : ''}`} data-marquee={direction} aria-hidden="true">
+  <div class="marquee-track">
+    {track.map((item) => (
+      <span class="marquee-item">{item}<span class="marquee-dot">✦</span></span>
+    ))}
+  </div>
+</div>

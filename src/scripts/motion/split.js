@@ -39,4 +39,4 @@ export function splitHeading(el) {
 }
 
 // Headings that get the scroll-in / scroll-out letter treatment.
-export const HEADING_SELECTOR = 'main h1, main h2.h2, main .statement';
+export const HEADING_SELECTOR = 'main h1, main h2.h2';

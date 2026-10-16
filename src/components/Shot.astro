@@ -1,0 +1,23 @@
+---
+// Product screenshot in a frame. Images live in src/assets/shots/<name>.webp and are
+// optimised by Astro (responsive AVIF/WebP). Until a shot exists the frame keeps its size.
+import { Picture } from 'astro:assets';
+
+const { name, alt, class: className = '', sizes = '(min-width: 900px) 50vw, 100vw', loading = 'lazy', ...rest } = Astro.props;
+
+const shots = import.meta.glob('../assets/shots/*.webp', { eager: true });
+const image = shots[`../assets/shots/${name}.webp`]?.default;
+---
+<div class={`frame ${className}`} data-media={name} {...rest}>
+  {image && (
+    <Picture
+      src={image}
+      alt={alt}
+      formats={['avif', 'webp']}
+      widths={[640, 960, 1440, 2000]}
+      sizes={sizes}
+      loading={loading}
+      decoding="async"
+    />
+  )}
+</div>

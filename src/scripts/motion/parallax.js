@@ -24,15 +24,24 @@ const REVEAL_SELECTOR = [
   'main .prose > *',
 ].join(',');
 
+// Content in the last screen of the page can never scroll past its exit point, so it
+// only animates in (otherwise the end of the page would sit half faded).
+function nearPageEnd(el) {
+  const top = el.getBoundingClientRect().top + window.scrollY;
+  return top > document.documentElement.scrollHeight - window.innerHeight * 1.6;
+}
+
 function revealInOut(el, index = 0) {
   const delay = Math.min(index, 6) * 0.025;
-  gsap.timeline({
-    scrollTrigger: { trigger: el, start: 'top bottom', end: 'bottom top', scrub: 0.6 },
+  const exits = !nearPageEnd(el);
+  const tl = gsap.timeline({
+    scrollTrigger: { trigger: el, start: 'top bottom', end: exits ? 'bottom top' : 'top 55%', scrub: 0.6 },
     defaults: { ease: 'none' },
   })
-    .fromTo(el, { y: 70, opacity: 0, filter: 'blur(8px)' }, { y: 0, opacity: 1, filter: 'blur(0px)', duration: 0.28 }, delay)
-    .to(el, { y: 0, duration: 0.47 })
-    .to(el, { y: -50, opacity: 0, filter: 'blur(6px)', duration: 0.25 });
+    .fromTo(el, { y: 70, opacity: 0, filter: 'blur(8px)' }, { y: 0, opacity: 1, filter: 'blur(0px)', duration: 0.28 }, delay);
+  if (exits) {
+    tl.to(el, { y: 0, duration: 0.52 }).to(el, { y: -50, opacity: 0, filter: 'blur(6px)', duration: 0.2 });
+  }
 }
 
 export function initParallax() {
@@ -64,7 +73,7 @@ export function initParallax() {
   }
 
   // Product frames: depth parallax plus a 3D tilt that settles flat mid-screen.
-  gsap.utils.toArray('main .frame').forEach((frame) => {
+  gsap.utils.toArray('main .frame:not(.zoom-frame):not(.hpanel-frame)').forEach((frame) => {
     gsap.set(frame, { transformPerspective: 1400, transformOrigin: '50% 60%' });
     gsap.timeline({
       scrollTrigger: { trigger: frame, start: 'top bottom', end: 'bottom top', scrub: 0.8 },

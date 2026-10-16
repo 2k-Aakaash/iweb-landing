@@ -1,7 +1,8 @@
 ---
 import Base from '../layouts/Base.astro';
 import Faq from '../components/Faq.astro';
-import CtaBand from '../components/CtaBand.astro';
+import Marquee from '../components/Marquee.astro';
+import Shot from '../components/Shot.astro';
 import { SITE, LINKS } from '../config/site.js';
 import { getReleases, formatReleaseDate } from '../lib/releases.js';
 import { softwareSchema, websiteSchema, faqSchema } from '../lib/schema.js';
@@ -12,6 +13,53 @@ const latest = releases[0] || null;
 const recent = releases.slice(0, 4);
 
 const jsonLd = [websiteSchema(), softwareSchema(latest), faqSchema(HOME_FAQS)];
+
+const FEATURES = [
+  {
+    id: 'stack',
+    eyebrow: 'Smart Stack',
+    title: 'One card. Four widgets.',
+    text: 'Scroll over the weather card and it flips to a currency converter, gold & silver rates, then markets, just like a macOS Smart Stack. Click any card to expand it.',
+    ticks: ['Weather with an hourly forecast', 'Currency converter: 36 currencies, works offline', 'Gold 24K / 22K / 18K & sovereign, silver per kg', 'NIFTY 50 & SENSEX at a glance'],
+    href: '/features/smart-stack',
+    link: 'Explore the Smart Stack',
+    shot: 'stack-gold-expanded',
+    alt: 'iWeb Smart Stack showing the gold and silver card expanded on the new tab',
+  },
+  {
+    id: 'spotlight',
+    eyebrow: 'Spotlight',
+    title: 'Ask your new tab anything.',
+    text: 'Press Ctrl+K. Type “100 usd to inr”, “nifty” or “22k gold” and get the answer instantly, or jump straight to a web, image, video or map search.',
+    ticks: ['Currency, index, stock and gold answers', 'Enter copies or opens the Markets app', 'Keyboard first, everywhere'],
+    href: '/features/spotlight',
+    link: 'See what Spotlight can do',
+    shot: 'spotlight-currency',
+    alt: 'iWeb Spotlight search answering 100 USD to INR',
+  },
+  {
+    id: 'markets',
+    eyebrow: 'Markets',
+    title: 'The market, one click away.',
+    text: 'NIFTY 50, SENSEX, NIFTY Bank and any NSE/BSE stock in your watchlist, with 1D–5Y charts. Gold and silver are priced in rupees, with India retail estimates.',
+    ticks: ['Searchable, reorderable watchlist', 'Interactive charts with hover', 'Delayed data · not investment advice'],
+    href: '/features/markets',
+    link: 'Explore Markets',
+    shot: 'markets-app',
+    alt: 'iWeb Markets app showing the NIFTY 50 chart and watchlist',
+  },
+  {
+    id: 'wallpapers',
+    eyebrow: 'Wallpapers',
+    title: 'Make it yours.',
+    text: "Drop in your own photos or pick from Unsplash's photographers. Wallpapers fade in smoothly, stay cached for offline use, and the clock adapts its colour to each one.",
+    ticks: ['Bulk import, duplicate detection', 'Unsplash topics & search, credited', 'Offline cache, smooth crossfades'],
+    href: '/features/wallpapers',
+    link: 'Explore wallpapers',
+    shot: 'wallpapers-settings',
+    alt: 'iWeb wallpaper settings with the Unsplash gallery',
+  },
+];
 ---
 <Base
   title={`${SITE.name}: ${SITE.descriptor}`}
@@ -19,7 +67,7 @@ const jsonLd = [websiteSchema(), softwareSchema(latest), faqSchema(HOME_FAQS)];
   jsonLd={jsonLd}
   bodyClass="home"
 >
-  <!-- 5.1 Hero: the 3D glass letters (step 4) render behind this static heading. -->
+  <!-- Hero -->
   <section class="hero" data-scene="hero" aria-labelledby="hero-title">
     <div class="hero-glow hero-glow-blue" data-parallax="0.9" aria-hidden="true"></div>
     <div class="hero-glow hero-glow-gold" data-parallax="1.6" aria-hidden="true"></div>
@@ -27,8 +75,8 @@ const jsonLd = [websiteSchema(), softwareSchema(latest), faqSchema(HOME_FAQS)];
       <h1 id="hero-title" class="display">{SITE.name}</h1>
       <p class="lead">Your new tab, reimagined as a calm macOS-style dashboard.</p>
       <div class="actions">
-        <a class="btn btn-primary" href={LINKS.install}>Get {SITE.name} for Chrome</a>
-        <a class="btn btn-ghost" href="#fresh-start">See it in action ↓</a>
+        <a class="btn btn-primary" href={LINKS.install} data-magnetic>Get {SITE.name} for Chrome</a>
+        <a class="btn btn-ghost" href="#fresh-start" data-magnetic>See it in action ↓</a>
       </div>
       <ul class="hero-badges">
         <li>Free</li>
@@ -37,12 +85,16 @@ const jsonLd = [websiteSchema(), softwareSchema(latest), faqSchema(HOME_FAQS)];
         {latest && <li>Latest {latest.tag}</li>}
       </ul>
     </div>
+    <div class="scroll-cue" aria-hidden="true"><span></span></div>
   </section>
 
-  <!-- 5.2 Every tab is a fresh start -->
-  <section id="fresh-start" class="section" data-scene="laptop" aria-labelledby="fresh-title">
-    <div class="container split">
-      <div>
+  <Marquee items={['Smart Stack', 'Spotlight', 'Markets', 'Wallpapers', 'Music', 'Notes']} direction={1} />
+  <Marquee items={['Your new tab, reimagined', 'Free & open source', 'Private by design']} direction={-1} outline />
+
+  <!-- Pinned zoom: the dashboard grows from a card to full-bleed -->
+  <section id="fresh-start" class="zoom" data-scene="zoom" aria-labelledby="fresh-title">
+    <div class="zoom-pin">
+      <div class="zoom-copy container">
         <span class="eyebrow">The dashboard</span>
         <h2 id="fresh-title" class="h2">Every tab is a fresh start.</h2>
         <p class="lead">
@@ -50,84 +102,38 @@ const jsonLd = [websiteSchema(), softwareSchema(latest), faqSchema(HOME_FAQS)];
           instantly and stays out of the way until you need it.
         </p>
       </div>
-      <div class="frame" data-media="dashboard" aria-hidden="true"></div>
+      <Shot name="dashboard" alt="The iWeb new tab dashboard with clock, greeting, search, Smart Stack and dock" class="zoom-frame" sizes="100vw" />
     </div>
   </section>
 
-  <!-- 5.3 Smart Stack -->
-  <section class="section" data-scene="smart-stack" aria-labelledby="stack-title">
-    <div class="container split">
-      <div>
-        <span class="eyebrow">Smart Stack</span>
-        <h2 id="stack-title" class="h2">One card. Four widgets.</h2>
-        <p class="lead">
-          Scroll over the weather card and it flips to a currency converter, gold &amp; silver rates,
-          then markets, just like a macOS Smart Stack. Click any card to expand it.
-        </p>
-        <ul class="ticks">
-          <li>Weather with an hourly forecast</li>
-          <li>Currency converter: 36 currencies, works offline</li>
-          <li>Gold 24K / 22K / 18K &amp; sovereign, silver per kg</li>
-          <li>NIFTY 50 &amp; SENSEX at a glance</li>
-        </ul>
-        <a class="text-link" href="/features/smart-stack">Explore the Smart Stack</a>
+  <!-- Horizontal gallery of the four headline features -->
+  <section class="hscroll" data-scene="features" aria-label="Features">
+    <div class="hscroll-pin">
+      <div class="hscroll-track">
+        <div class="hpanel hpanel-intro">
+          <span class="eyebrow">What's inside</span>
+          <h2 class="h2">Four ways your tab works harder.</h2>
+          <p class="lead">Keep scrolling: each one is a single gesture away on every new tab.</p>
+        </div>
+        {FEATURES.map((feature, index) => (
+          <article class={`hpanel hpanel-${feature.id}`} aria-labelledby={`${feature.id}-title`}>
+            <div class="hpanel-copy">
+              <span class="hpanel-index">0{index + 1}</span>
+              <span class="eyebrow">{feature.eyebrow}</span>
+              <h2 id={`${feature.id}-title`} class="h2">{feature.title}</h2>
+              <p class="lead">{feature.text}</p>
+              <ul class="ticks">{feature.ticks.map((tick) => <li>{tick}</li>)}</ul>
+              <a class="text-link" href={feature.href}>{feature.link}</a>
+            </div>
+            <Shot name={feature.shot} alt={feature.alt} class="hpanel-frame" sizes="(min-width: 900px) 45vw, 100vw" />
+          </article>
+        ))}
       </div>
-      <div class="frame" data-media="smart-stack" aria-hidden="true"></div>
     </div>
   </section>
 
-  <!-- 5.4 Spotlight -->
-  <section class="section" data-scene="spotlight" aria-labelledby="spotlight-title">
-    <div class="container split">
-      <div>
-        <span class="eyebrow">Spotlight</span>
-        <h2 id="spotlight-title" class="h2">Ask your new tab anything.</h2>
-        <p class="lead">
-          Press Ctrl+K. Type “100 usd to inr”, “nifty” or “22k gold” and get the answer instantly,
-          or jump straight to a web, image, video or map search.
-        </p>
-        <a class="text-link" href="/features/spotlight">See what Spotlight can do</a>
-      </div>
-      <div class="frame" data-media="spotlight" aria-hidden="true"></div>
-    </div>
-  </section>
-
-  <!-- 5.5 Markets -->
-  <section class="section" data-scene="markets" aria-labelledby="markets-title">
-    <div class="container split">
-      <div>
-        <span class="eyebrow">Markets</span>
-        <h2 id="markets-title" class="h2">The market, one click away.</h2>
-        <p class="lead">
-          A full Markets app inside your new tab: NIFTY 50, SENSEX, NIFTY Bank and any NSE/BSE stock
-          in your watchlist, with 1D–5Y charts. Gold and silver are priced in rupees, with India
-          retail estimates.
-        </p>
-        <p class="small">Data is delayed and for information only. Not investment advice.</p>
-        <a class="text-link" href="/features/markets">Explore Markets</a>
-      </div>
-      <div class="frame" data-media="markets" aria-hidden="true"></div>
-    </div>
-  </section>
-
-  <!-- 5.6 Wallpapers -->
-  <section class="section" data-scene="wallpapers" aria-labelledby="wallpapers-title">
-    <div class="container split">
-      <div>
-        <span class="eyebrow">Wallpapers</span>
-        <h2 id="wallpapers-title" class="h2">Make it yours.</h2>
-        <p class="lead">
-          Drop in your own photos or pick from Unsplash's photographers. Wallpapers fade in smoothly,
-          stay cached for offline use, and the clock adapts its colour to each one.
-        </p>
-        <a class="text-link" href="/features/wallpapers">Explore wallpapers</a>
-      </div>
-      <div class="frame" data-media="wallpapers" aria-hidden="true"></div>
-    </div>
-  </section>
-
-  <!-- 5.7 Music & Dynamic Island -->
-  <section class="section" data-scene="music" aria-labelledby="music-title">
+  <!-- Music -->
+  <section class="section" data-scene="music" data-tint="violet" aria-labelledby="music-title">
     <div class="container split">
       <div>
         <span class="eyebrow">Music</span>
@@ -138,42 +144,50 @@ const jsonLd = [websiteSchema(), softwareSchema(latest), faqSchema(HOME_FAQS)];
           Island at the top of the page.
         </p>
       </div>
-      <div class="frame" data-media="music" aria-hidden="true"></div>
+      <div class="island-demo" aria-hidden="true">
+        <div class="island">
+          <span class="island-art"></span>
+          <span class="island-text"><strong>Midnight City</strong><span>Now playing</span></span>
+          <span class="island-wave"><i></i><i></i><i></i><i></i><i></i></span>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- 5.8 The little things -->
-  <section class="section" data-scene="details" aria-labelledby="details-title">
+  <!-- Stacked cards -->
+  <section class="section stack-section" data-scene="details" aria-labelledby="details-title">
     <div class="container">
       <div class="section-head">
         <span class="eyebrow">Details</span>
         <h2 id="details-title" class="h2">Thoughtful down to the details.</h2>
       </div>
-      <div class="grid-3">
-        {LITTLE_THINGS.map((item) => (
-          <article class="card">
-            <h3 class="h3">{item.title}</h3>
-            <p>{item.text}</p>
+      <div class="stack-cards">
+        {LITTLE_THINGS.map((item, index) => (
+          <article class="stack-card" style={`--i:${index}`}>
+            <span class="stack-num">0{index + 1}</span>
+            <div>
+              <h3 class="h3">{item.title}</h3>
+              <p>{item.text}</p>
+            </div>
           </article>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- 5.9 Privacy -->
-  <section class="section" data-scene="privacy" aria-labelledby="privacy-title">
+  <!-- Privacy: words fill in and gain weight as you scroll -->
+  <section class="section statement-section" data-scene="privacy" aria-labelledby="privacy-title">
     <div class="container">
-      <h2 id="privacy-title" class="statement">Your tab.<br />Your data.</h2>
-      <p class="lead" style="margin-top: 40px">
-        No account. No tracking. Your notes, music, wallpapers and settings live in your browser and
-        nowhere else. {SITE.name} only goes online for the features you use: weather, rates, markets
-        and photos.
+      <h2 id="privacy-title" class="statement" data-fill>Your tab. Your data. No account, no tracking, nothing leaves your browser unless you ask.</h2>
+      <p class="lead" style="margin-top: 48px">
+        Your notes, music, wallpapers and settings live in your browser and nowhere else. {SITE.name}
+        only goes online for the features you use: weather, rates, markets and photos.
       </p>
       <a class="text-link" href="/privacy">Read exactly what is sent</a>
     </div>
   </section>
 
-  <!-- 5.10 Always improving -->
+  <!-- Always improving -->
   <section class="section" data-scene="releases" aria-labelledby="releases-title">
     <div class="container">
       <div class="section-head">
@@ -200,6 +214,15 @@ const jsonLd = [websiteSchema(), softwareSchema(latest), faqSchema(HOME_FAQS)];
     </div>
   </section>
 
-  <CtaBand />
+  <!-- Final CTA -->
+  <section class="section cta-band cta-big" aria-labelledby="cta-title">
+    <h2 id="cta-title" class="h2">Start every tab beautifully.</h2>
+    <p class="lead">Free, open source and private. Installs in under a minute.</p>
+    <div class="actions">
+      <a class="btn btn-primary btn-large" href={LINKS.install} data-magnetic>Get {SITE.name} for Chrome</a>
+      <a class="btn btn-ghost" href={LINKS.github} rel="noopener" data-magnetic>View on GitHub</a>
+    </div>
+  </section>
+
   <Faq faqs={HOME_FAQS} />
 </Base>

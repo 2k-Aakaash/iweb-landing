@@ -6,6 +6,7 @@
 
 import { initSmoothScroll } from './smooth.js';
 import { initParallax, initDomHeadings } from './parallax.js';
+import { initShowcase } from './showcase.js';
 
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -20,7 +21,10 @@ function supportsWebGL() {
 
 async function start() {
   document.documentElement.classList.add('motion');
-  initSmoothScroll();
+  const lenis = initSmoothScroll();
+  // Pinned set pieces first: ScrollTrigger positions later triggers using the pin spacing,
+  // so reveals created before the pins would fire too early.
+  initShowcase(lenis);
   initParallax();
 
   const wantsGl = window.innerWidth >= 900 && supportsWebGL();
