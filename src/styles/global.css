@@ -315,14 +315,25 @@ h3 {
   isolation: isolate;
 }
 
-.hero::before {
-  content: '';
+.hero-glow {
   position: absolute;
-  inset: 0;
   z-index: -1;
-  background:
-    radial-gradient(60% 50% at 50% 38%, rgba(10, 132, 255, 0.22), transparent 70%),
-    radial-gradient(40% 40% at 70% 70%, rgba(227, 176, 75, 0.1), transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(20px);
+}
+
+.hero-glow-blue {
+  inset: 5% 15% 15%;
+  background: radial-gradient(closest-side, rgba(10, 132, 255, 0.28), transparent);
+}
+
+.hero-glow-gold {
+  width: 45vw;
+  height: 45vw;
+  right: 2%;
+  bottom: -10%;
+  background: radial-gradient(closest-side, rgba(227, 176, 75, 0.14), transparent);
 }
 
 .hero-inner {
@@ -739,4 +750,47 @@ h3 {
 /* Anchor targets clear the fixed header. */
 [id] {
   scroll-margin-top: 110px;
+}
+
+/* ── Motion layer ────────────────────────────────────────────────────────── */
+
+/* Lenis owns smooth scrolling while active. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* Split headings keep their words together exactly like the original text. */
+.gl-w {
+  white-space: nowrap;
+}
+
+/* WebGL heading layer: above the content (but below the header), never interactive. */
+.gl-layer {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 40;
+  pointer-events: none;
+}
+
+/* Once the 3D letters are drawn, the DOM text stays in place (for SEO, selection and
+   screen readers) but invisible. */
+html.gl-text-ready main h1,
+html.gl-text-ready main h2.h2,
+html.gl-text-ready main .statement {
+  color: transparent;
+}
+
+html.motion .frame {
+  will-change: transform;
 }
