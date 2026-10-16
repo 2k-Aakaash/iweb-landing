@@ -1,0 +1,63 @@
+---
+// Hero: a 3D world (src/scripts/world) with the real heading, CTAs and feature list in
+// HTML. Without WebGL / with reduced motion it is a static, fully readable hero.
+import { SITE, LINKS } from '../config/site.js';
+import { WORLD_FEATURES } from '../content/world.js';
+
+const { latest } = Astro.props;
+---
+<section class="world" data-world aria-labelledby="hero-title">
+  <div class="world-pin">
+    <div class="world-stage" data-world-stage>
+      <div class="world-fallback" aria-hidden="true"></div>
+    </div>
+
+    <div class="world-overlay container">
+      <div class="world-intro" data-world-intro>
+        <h1 id="hero-title" class="world-title">{SITE.name}</h1>
+        <p class="world-lead">Your new tab, reimagined as a calm macOS-style dashboard.</p>
+        <div class="actions">
+          <a class="btn btn-primary" href={LINKS.install} data-magnetic>Get {SITE.name} for Chrome</a>
+          <a class="btn btn-ghost" href="#fresh-start" data-magnetic>Skip to the tour ↓</a>
+        </div>
+        <ul class="hero-badges">
+          <li>Free</li>
+          <li>Open source</li>
+          <li>No sign-up</li>
+          {latest && <li>Latest {latest.tag}</li>}
+        </ul>
+      </div>
+    </div>
+
+    <!-- Beacon labels (positioned by the world each frame) and feature cards. -->
+    <ul class="world-labels" data-world-labels aria-label="Explore features">
+      {WORLD_FEATURES.map((feature, index) => (
+        <li>
+          <button type="button" class="world-label" data-beacon={index} style={`--beacon:${feature.color}`}>
+            <span class="world-label-dot"></span>{feature.name}
+          </button>
+        </li>
+      ))}
+    </ul>
+
+    {WORLD_FEATURES.map((feature, index) => (
+      <article class="world-card" data-card={index} style={`--beacon:${feature.color}`} hidden aria-labelledby={`world-card-${feature.id}`}>
+        <span class="world-card-dot" aria-hidden="true"></span>
+        <h2 id={`world-card-${feature.id}`} class="world-card-title">{feature.name}</h2>
+        <p>{feature.text}</p>
+        <div class="world-card-actions">
+          <a class="text-link" href={feature.href}>Learn more</a>
+          <button type="button" class="world-card-close" data-close aria-label={`Close ${feature.name}`}>Back to the world</button>
+        </div>
+      </article>
+    ))}
+
+    <div class="world-ui">
+      <p class="world-hint" data-world-hint>Drag or scroll to explore · click a light</p>
+      <button type="button" class="world-sound" data-sound aria-pressed="false">
+        <span class="world-sound-bars" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span data-sound-label>Sound off</span>
+      </button>
+    </div>
+  </div>
+</section>

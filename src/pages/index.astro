@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import Faq from '../components/Faq.astro';
 import Marquee from '../components/Marquee.astro';
 import Shot from '../components/Shot.astro';
+import TabWorld from '../components/TabWorld.astro';
 import { SITE, LINKS } from '../config/site.js';
 import { getReleases, formatReleaseDate } from '../lib/releases.js';
 import { softwareSchema, websiteSchema, faqSchema } from '../lib/schema.js';
@@ -67,26 +68,7 @@ const FEATURES = [
   jsonLd={jsonLd}
   bodyClass="home"
 >
-  <!-- Hero -->
-  <section class="hero" data-scene="hero" aria-labelledby="hero-title">
-    <div class="hero-glow hero-glow-blue" data-parallax="0.9" aria-hidden="true"></div>
-    <div class="hero-glow hero-glow-gold" data-parallax="1.6" aria-hidden="true"></div>
-    <div class="container hero-inner">
-      <h1 id="hero-title" class="display">{SITE.name}</h1>
-      <p class="lead">Your new tab, reimagined as a calm macOS-style dashboard.</p>
-      <div class="actions">
-        <a class="btn btn-primary" href={LINKS.install} data-magnetic>Get {SITE.name} for Chrome</a>
-        <a class="btn btn-ghost" href="#fresh-start" data-magnetic>See it in action ↓</a>
-      </div>
-      <ul class="hero-badges">
-        <li>Free</li>
-        <li>Open source</li>
-        <li>No sign-up</li>
-        {latest && <li>Latest {latest.tag}</li>}
-      </ul>
-    </div>
-    <div class="scroll-cue" aria-hidden="true"><span></span></div>
-  </section>
+  <TabWorld latest={latest} />
 
   <Marquee items={['Smart Stack', 'Spotlight', 'Markets', 'Wallpapers', 'Music', 'Notes']} direction={1} />
   <Marquee items={['Your new tab, reimagined', 'Free & open source', 'Private by design']} direction={-1} outline />
